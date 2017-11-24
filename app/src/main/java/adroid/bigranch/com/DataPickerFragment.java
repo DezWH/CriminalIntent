@@ -94,11 +94,15 @@ public class DataPickerFragment extends DialogFragment {
         }
 
         if (requestCode == REQUEST_DATE) {
-            Date date = (Date) mDatePicker
+            Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
-            mDateButton.setText(mCrime.geDate().toString());
+
+            updateDate();
         }
+    }
+        private void updateDate(){
+        mDateButton.setText(mCrime.geDate().toString());
     }
 }
 

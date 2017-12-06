@@ -25,8 +25,6 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {
 
-
-
     {
 
         private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
@@ -42,8 +40,9 @@ public class CrimeListFragment extends Fragment {
     }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+        public View OnCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState)
+        {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
 
         mCrimeRecyclerView = (RecyclerView) view

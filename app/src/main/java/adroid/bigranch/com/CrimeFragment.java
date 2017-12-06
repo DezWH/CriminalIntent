@@ -17,23 +17,23 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import java.util.Date;
 
-import static android.widget.CompoundButton.*;
 import java.util.UUID;
-
-import static adroid.bigranch.com.CriminalActivity.EXTRA_CRIME_ID;
 
 /**
  * Created by Dez on 11/11/2017.
  */
 
-public class CrimeFragment extends Fragment {
+public class CrimeFragment extends Fragment { //Beginning of CrimeFragment class that extends
 
-    //"com.adroid.bigranch.com.criminalintent.crime_id";
+
+    //--------------------------------------------------------------------------
+    // Private statics Strings that can't be changed and instantiated as objects.
+    //---------------------------------------------------------------------------
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
 
-
+    //Global Varables
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
@@ -44,6 +44,7 @@ public class CrimeFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable(ARG_CRIME_ID, crimeId);
 
+        //
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -60,7 +61,6 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -91,13 +91,13 @@ public class CrimeFragment extends Fragment {
         mDateButton = (Button) v.findViewById(R.id.crime_date);
         updateDate();
 
-        mDateButton.setOnClickListener(new View.onClickListener(){
+        mDateButton.setOnClickListener(new View.OnClickListener(){
             @Override
            public void onClick (View v){
 
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFrament
-                        .newInstance(mCrime.getDate());
+                DatePickerFragment dialog = DatePickerFragment.
+                        newInstance(mCrime.getDate());
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
 

@@ -3,9 +3,12 @@ package adroid.bigranch.com;
 import android.app.Activity;
 //import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.os.Bundle;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.text.Layout;
+import android.content.Intent;
+import java.util.Calendar;
 import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.os.Bundle;
@@ -23,11 +26,10 @@ import android.content.Intent;
  * Created by Dez on 11/23/2017.
  */
 
-public class DataPickerFragment extends DialogFragment {
-    {
+public class DatePickerFragment extends DialogFragment {
 
         public static final String EXTRA_DATE =
-                "com.bignerdranch.android.criminalintent.date";
+                "android.bigranch.criminalintent.date";
 
             private static final String ARG_DATE = "date";
 
@@ -41,7 +43,6 @@ public class DataPickerFragment extends DialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
         Date date = (Date) getArguments().getSerializable(ARG_DATE);

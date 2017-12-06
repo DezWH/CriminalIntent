@@ -9,18 +9,18 @@
      android:id="@+id/new_crime"
      android:icon="@drawable/ic_menu_add"
      android:title="@string/new_crime"
-     app:showAsAction="ifRoom|withText"/>
+     android:showAsAction="ifRoom|withText"/>
 
     <item
         android:id="@+id/show_subtitle"
         android:title="@String/show_subtitle"
-        app:showAsAction= "ifRoom"/>
-</item>
-    <Button
-        android:id="@+id/crime_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
+        android:showAsAction= "ifRoom"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/crime_date"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"/>-->
 
 </menu>

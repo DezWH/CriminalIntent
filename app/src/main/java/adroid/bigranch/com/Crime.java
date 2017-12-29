@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by Dez on 11/11/2017.
+ * Created by Dez on 11/11/2017. Create a model layer and an activity that is capable of hosting a
+ * a support framgment.
  */
 
 public class Crime { //Beginning of Crime Class
@@ -18,8 +19,9 @@ public class Crime { //Beginning of Crime Class
     //Crime Method Constructor
     public Crime()
     {
-        //Instantiated object mmutable universally unique identifier
-        mId = UUID.randomUUID();
+        //Instantiate object mmutable universally unique identifier
+        //Initialize the ID and the date field
+        mId = UUID.randomUUID(); //It's a utility class
         mDate = new Date();
     }
     //------------------------------------------------------------
@@ -63,6 +65,10 @@ public class Crime { //Beginning of Crime Class
     {
         return mSolved;
     }
+
+    //------------------------------------------------------------
+    // Mutator: Sets solved and returns solved private immutible variable
+    //--------------------------------------------------------------
     public void setSolved(boolean solved)
     {
         mSolved = solved;

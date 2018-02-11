@@ -25,8 +25,6 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {
 
-    {
-
         private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
         private RecyclerView mCrimeRecyclerView;
@@ -34,45 +32,43 @@ public class CrimeListFragment extends Fragment {
         private boolean mSubtitleVisible;
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-
         @Override
-        public View OnCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
-        {
-        View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+        public View OnCreateView (LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
 
-        mCrimeRecyclerView = (RecyclerView) view
-                .findViewById(R.id.crime_recycler_view);
-        mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mCrimeRecyclerView = (RecyclerView) view
+                    .findViewById(R.id.crime_recycler_view);
+            mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        if (savedInstanceState != null) {
-            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+            if (savedInstanceState != null) {
+                mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+            }
+
+            updateUI();
+
+            return view;
         }
 
-        updateUI();
-
-        return view;
-    }
-
         @Override
-        public void onResume() {
+        public void onResume () {
         super.onResume();
         updateUI();
     }
 
         @Override
-        public void onSaveInstanceState(Bundle outState) {
+        public void onSaveInstanceState (Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
     }
 
         @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);  //You call through the superclass implementation
         inflater.inflate(R.menu.fragment_crime_list, menu);
 
         MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
@@ -84,7 +80,7 @@ public class CrimeListFragment extends Fragment {
     }
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
+        public boolean onOptionsItemSelected (MenuItem item){ // to respond to selection of MenuItem
         switch (item.getItemId()) {
             case R.id.new_crime:
                 Crime crime = new Crime();
@@ -92,7 +88,9 @@ public class CrimeListFragment extends Fragment {
                 Intent intent = CrimePagerActivity
                         .newIntent(getActivity(), crime.getId());
                 startActivity(intent);
-                return true;
+
+                return true;  //to indicate that no further processing is ncessary.
+
             case R.id.show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
                 getActivity().invalidateOptionsMenu();
@@ -116,7 +114,9 @@ public class CrimeListFragment extends Fragment {
         activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
-    private void updateUI() {
+    // Then call setCrimes(List<Crime>  in updateUI()
+    private void updateUI()
+    {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
@@ -124,6 +124,7 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
+
             mAdapter.notifyDataSetChanged();
         }
 
@@ -166,7 +167,8 @@ public class CrimeListFragment extends Fragment {
 
         private List<Crime> mCrimes;
 
-        public CrimeAdapter(List<Crime> crimes) {
+        public CrimeAdapter(List<Crime> crimes)
+        {
             mCrimes = crimes;
         }
 
@@ -183,8 +185,14 @@ public class CrimeListFragment extends Fragment {
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+
+        {
             return mCrimes.size();
+        }
+        public void setmCrimes(List<Crime>crimes)
+        {
+            mCrimes = crimes;
         }
     }
 }

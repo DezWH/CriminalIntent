@@ -21,8 +21,17 @@ public class Crime { //Beginning of Crime Class
     {
         //Instantiate object mmutable universally unique identifier
         //Initialize the ID and the date field
-        mId = UUID.randomUUID(); //It's a utility class
+
+        this(UUID.randomUUID());
+        // mId = UUID.randomUUID(); //It's a utility class
+        // mDate = new Date();
+    }
+
+    public Crime (UUID id)
+    {
+        mId = id;
         mDate = new Date();
+
     }
     //------------------------------------------------------------
     // Accessor: Gets ID and returns mId private immutible variable

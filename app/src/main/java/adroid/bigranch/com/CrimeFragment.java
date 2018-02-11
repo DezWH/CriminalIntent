@@ -67,6 +67,14 @@ public class CrimeFragment extends Fragment
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+        CrimeLab.get(getActivity())
+                .updateCrime(mCrime);
+    }
     //-----------------------------------------------------------------------------
     // Create amd coonfigure the fragment's view in another framgent lifecycle method.
     // It's where you inflate the layout for the frament's view and return the inflated

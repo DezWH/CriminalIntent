@@ -8,6 +8,7 @@ import java.util.UUID;
  * a support framgment.
  */
 
+
 public class Crime { //Beginning of Crime Class
 
     //Private global variables
@@ -15,13 +16,13 @@ public class Crime { //Beginning of Crime Class
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private String mSuspect;
 
     //Crime Method Constructor
     public Crime()
     {
         //Instantiate object mmutable universally unique identifier
         //Initialize the ID and the date field
-
         this(UUID.randomUUID());
         // mId = UUID.randomUUID(); //It's a utility class
         // mDate = new Date();
@@ -79,7 +80,18 @@ public class Crime { //Beginning of Crime Class
     // Mutator: Sets solved and returns solved private immutible variable
     //--------------------------------------------------------------
     public void setSolved(boolean solved)
+
     {
         mSolved = solved;
+    }
+
+    // Adding Sustpect to the Model Layer
+    public String getmSuspect()
+    {
+        return mSuspect;
+    }
+    public void setmSuspect(String suspect)
+    {
+        mSuspect = suspect;
     }
 }

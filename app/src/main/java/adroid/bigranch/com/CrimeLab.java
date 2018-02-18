@@ -157,7 +157,7 @@ public class CrimeLab {//Beginning of Crime Class
         values.put(CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved()? 1: 0); // If you use ?,  thorugh, your code will do what you
-                                                                    // It's best to use as habit, because it
+        values.put(CrimeTable.Cols.SUSPECT, crime.getmSuspect());  // Write new column in CrimeLab.getContentValues(Crime)                                                    // It's best to use as habit, because it
                                                                    // will always do what you want it to.
 
         return values;

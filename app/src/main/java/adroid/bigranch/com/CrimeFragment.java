@@ -4,6 +4,7 @@ package adroid.bigranch.com;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -25,8 +26,7 @@ import java.util.UUID;
  * Created by Dez on 11/11/2017.
  */
 
-public class CrimeFragment extends Fragment
-{ //Beginning of CrimeFragment class that extends
+public class CrimeFragment extends Fragment { //Beginning of CrimeFragment class that extends
 
 
     //--------------------------------------------------------------------------
@@ -36,12 +36,16 @@ public class CrimeFragment extends Fragment
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+    private static final int REQUEST_CONTACT = 1; // Asking android for contact to help pick
+    // an item in the request code and member variable
 
     //Global Varables
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private Button mReportButton;
+    private Button mSuspectButton;
 
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -54,6 +58,7 @@ public class CrimeFragment extends Fragment
         return fragment;
 
     }
+
     //---------------------------------------------------------
     //Will be called by Activity hosting the fragment
     //The onCreateView metthod is the place to wire up widgets
@@ -68,13 +73,13 @@ public class CrimeFragment extends Fragment
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
         CrimeLab.get(getActivity())
                 .updateCrime(mCrime);
     }
+
     //-----------------------------------------------------------------------------
     // Create amd coonfigure the fragment's view in another framgent lifecycle method.
     // It's where you inflate the layout for the frament's view and return the inflated
@@ -83,7 +88,54 @@ public class CrimeFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) { //The Bundle will contain data that this method can use to
-                                                          // to re-creaet the view from a saved state.
+        // to re-creaet the view from a saved state.
+
+        // Sending A Crime report in CriminalIntent.
+        mReportButton = (Button) v.findViewById(R.id.crime_report);
+        mReportButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+                i.putExtra(Intent.EXTRA_SUBJECT,
+                        getString(R.string.crime_report_subject));
+
+                // Using a Chooser to display the activities that respond to your
+                // implicit intent.
+                i = Intent.createChooser(i, getString(R.string.send_report));
+
+                startActivity(i); // Then you pass the intent returned from createChooser
+                // into startActvity.
+            }
+        });
+        return v;
+    }
+
+    // Get a reference to the button and set a listener on it.
+    // Within the listeners's implementation, create the implici intent
+    // and pass  it into startActivity
+    final Intent pickContact = new Intent(Intent.ACTION_PICK,
+            ContactsContract.Contacts.CONTENT_URI);
+    mSuspectButton =(Button)v.findViewById(R.id.crime_suspect);
+    mSuspectButton.setOnClickListener(new View.OnClickListener()
+
+    {
+
+        public void onClick (View v)
+        {
+            startActivityForResult(pickContact, REQUEST_CONTACT);
+
+        }
+    });
+}
+
+    if (mCrime.getmSuspect()!= null){
+        mSuspectButton.setText(mCrime.getmSuspect());
+
+                                         }
+
+                                         return;
+        }
 
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
@@ -131,6 +183,7 @@ public class CrimeFragment extends Fragment
 
         return v;
     }
+    // Pulling contact name out
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (resultCode != Activity.RESULT_OK) {
@@ -138,16 +191,77 @@ public class CrimeFragment extends Fragment
 
             }
 
-            if (requestCode == REQUEST_DATE) {
-                Date date = (Date) data
-                        .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-                mCrime.setDate(date);
-                updateDate();
+            if (requestCode == REQUEST_DATE){
+        Date date=(Date)data
+        .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+        mCrime.setDate(date);
+        updateDate();
+        }
+        else if(requestCode == REQUEST_CONTACT && data != null)
+        {
+            Uri contatUri = date.getDate();
+
+            // Spcify which fields you want your query to return
+            // values for
+            String [] queryFields = new String[]
+        {
+                    ContactsContract.Contacts.DISPLAY_NAME
+
+            };
+
+            // Perform your query - the contractUri is like a "where"
+        // clause here
+        Cursor c = getActivity().getContentResolver(0
+        .query(contactUri, queryFields, null, null, null);
+
+        try{
+        // Double-check that you actually got results
+        if(c.getCount()==0)
+        {
+        return;
+        }
+
+        // Pull out the first column of the first row of date -
+        // that is your suspect's name
+        c.moveToFirst();
+        String suspect=c.getString(0);
+        mCrime.setSuspect(suspect);
+        mSuspectButton.setText(suspect);
+        }finally{
+        c.close();
             }
         }
+}
+
+        // Add a method that creates four strings and then pieces them together
+        // and returns a complete report.
+
     private void updateDate() {
         mDateButton.setText(mCrime.getDate().toString());
 
+    }
+    private String getCrimeReport()
+    {
+        String solvedString = null;
+        if (mCrime.isSolved()) {
+            solvedString = getString(R.string.crime_report_solved);
+        }else{
+            solvedString=getString(R.string.crime_report_unsolved);
+        }
+
+        String dateFormat = "EEE, MMM dd";
+                String dateString = DateFormat.Format(dateFormat,
+                        mCrime.getDate()).toString();
+
+        String suspect = mCrime.getmSuspect();
+        if(suspect == null) {
+            suspect = getString(R.string.crime_report_no_suspect);
+        }else{
+        }
+        String report = getString(R.string.crime_report,
+                mCrime.getTitle(), dateString, solvedString, suspect);
+
+        return report
     }
 }
 
